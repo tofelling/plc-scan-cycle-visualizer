@@ -1,0 +1,18 @@
+name: TON Timer Example
+description: Demonstrates how an on-delay timer accumulates elapsed time across PLC scan cycles.
+scenario_type: ton_timer
+inputs:
+  IN: false
+outputs:
+  Q: false
+timer:
+  PT: 3
+  cycle_time: 1
+cycles:
+  - IN: false
+  - IN: true
+  - IN: true
+  - IN: true
+  - IN: true
+  - IN: false
+  - IN: true

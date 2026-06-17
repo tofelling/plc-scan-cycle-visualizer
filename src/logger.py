@@ -1,10 +1,16 @@
 from .scan_cycle import ScanCycleResult
 
 
+def _format_value(value):
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    return str(value)
+
+
 def _format_state(state):
     if not state:
         return "(none)"
-    return ", ".join(f"{name}={value}" for name, value in state.items())
+    return ", ".join(f"{name}={_format_value(value)}" for name, value in state.items())
 
 
 def format_example_header(example):

@@ -25,6 +25,8 @@ Success criteria:
 
 ## v0.2: Timing Diagram Output
 
+Status: Implemented.
+
 Goal: turn scan cycle logs into simple timing diagrams.
 
 Planned scope:
@@ -39,6 +41,8 @@ Success criteria:
 - The diagrams can be used in class notes or a portfolio README.
 
 ## v0.3: Basic TON Timer
+
+Status: Implemented.
 
 Goal: introduce one common PLC timer concept without implementing a full PLC instruction set.
 

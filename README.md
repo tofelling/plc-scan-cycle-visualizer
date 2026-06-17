@@ -2,7 +2,7 @@
 
 [![Release](https://img.shields.io/github/v/release/tofelling/plc-scan-cycle-visualizer)](https://github.com/tofelling/plc-scan-cycle-visualizer/releases)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Status](https://img.shields.io/badge/status-v0.2.0-green)
+![Status](https://img.shields.io/badge/status-v0.3.0-green)
 ![Focus](https://img.shields.io/badge/focus-PLC%20scan%20cycle-orange)
 
 [中文说明](docs/README.zh-CN.md) | English README
@@ -45,19 +45,20 @@ The key idea is that logic is evaluated in repeated cycles. This timing model ex
 
 ## MVP Examples
 
-The first version will only cover three teaching cases:
+The current version covers four fixed teaching cases:
 
-v0.1 supports three fixed teaching scenarios: `single_button`, `start_stop_latch`, and `emergency_stop`.
+v0.3 supports four fixed teaching scenarios: `single_button`, `start_stop_latch`, `emergency_stop`, and `ton_timer`.
 
 | Example | Purpose |
 |---|---|
 | `01_single_button.yaml` | Show how one input button controls one output coil across scan cycles. |
 | `02_start_stop_latch.yaml` | Show why a motor latch remains on after the start button is released. |
 | `03_emergency_stop.yaml` | Show how an emergency stop condition overrides normal start logic. |
+| `04_ton_timer.yaml` | Show how a TON timer accumulates elapsed time before Q becomes true. |
 
 The current version uses fixed scenario logic, not a general ladder logic parser.
 
-中文说明：当前版本只支持这三个固定教学场景，不是通用梯形图解析器。
+中文说明：当前版本只支持这四个固定教学场景，不是通用梯形图解析器。
 
 ## Quick Start / 快速开始
 
@@ -80,6 +81,12 @@ Generate timing diagrams for all MVP examples:
 
 ```bash
 python main.py --plot-all
+```
+
+Run the TON timer example:
+
+```bash
+python main.py examples/04_ton_timer.yaml --plot
 ```
 
 ## v0.1 Output Example
@@ -122,7 +129,7 @@ Cycle 5
   Output update: MOTOR=False
 ```
 
-v0.1 shows scan cycle logs. v0.2 adds timing diagrams that show how input and output signals change across scan cycles.
+v0.1 shows scan cycle logs. v0.2 adds timing diagrams that show how input and output signals change across scan cycles. v0.3 adds a basic TON timer teaching example.
 
 ## Timing Diagram Preview / 时序图预览
 
@@ -133,6 +140,14 @@ In this example, START is pressed only during Cycle 2, but MOTOR remains on in C
 中文说明：在这个例子中，START 只在第 2 个扫描周期被按下，但 MOTOR 在第 3 个周期仍然保持开启，因为自锁逻辑使用了上一轮的 MOTOR 状态。当 STOP 在第 4 个周期变为 False 时，MOTOR 被强制关闭。
 
 ![Start Stop Latch Timing Diagram](outputs/02_start_stop_latch_timing.png)
+
+## TON Timer Preview
+
+The TON timer diagram shows that `Q` does not become true immediately when `IN=True`. The timer must accumulate `ET` across continuous scan cycles until `ET` reaches `PT`.
+
+中文说明：TON 延时定时器在 IN=True 后不会立刻 Q=True，而是需要在连续扫描周期中累计 ET。当 ET 达到 PT 后，Q 才变为 True；如果 IN=False，定时器复位。
+
+![TON Timer Timing Diagram](outputs/04_ton_timer_timing.png)
 
 ## Core Logic / 核心逻辑
 
@@ -156,7 +171,7 @@ This is fixed scenario logic for teaching scan cycles. It is not a full ladder l
 
 - v0.1: Display scan cycle logs for the three MVP examples. Implemented.
 - v0.2: Generate timing diagrams from example data. Implemented.
-- v0.3: Add a basic TON timer teaching example.
+- v0.3: Add a basic TON timer teaching example. Implemented.
 - v0.4: Add practice questions and expected answers.
 - v1.0: Become a small, teachable, demo-ready PLC scan cycle learning tool.
 
@@ -178,8 +193,8 @@ That narrow scope makes the project realistic for a student portfolio while stil
 
 ## Current Status / 当前状态
 
-v0.2 implemented.
+v0.3 implemented.
 
-The repository can load the three YAML examples, print beginner-friendly scan cycle logs in the terminal, and generate static timing diagram images for README usage.
+The repository can load the four YAML examples, print beginner-friendly scan cycle logs in the terminal, and generate static timing diagram images for README usage.
 
-中文总结：当前版本已经可以运行 YAML 示例、输出 scan cycle logs，并生成用于 README 展示的 timing diagrams。
+中文总结：当前版本已经可以运行 YAML 示例、输出 scan cycle logs，并生成用于 README 展示的 timing diagrams；v0.3 新增了 TON timer 教学示例。

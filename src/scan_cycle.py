@@ -7,16 +7,18 @@ from .scenarios import get_scenario
 @dataclass
 class ScanCycleResult:
     cycle_number: int
-    input_image: Dict[str, bool]
-    previous_output_state: Dict[str, bool]
+    input_image: Dict[str, Any]
+    previous_output_state: Dict[str, Any]
     explanation: str
-    new_output_state: Dict[str, bool]
+    new_output_state: Dict[str, Any]
 
 
 def run_scan_cycles(example: Dict[str, Any]) -> List[ScanCycleResult]:
     scenario = get_scenario(example["scenario_type"])
     default_inputs = dict(example.get("inputs", {}))
     current_outputs = dict(example.get("outputs", {}))
+    if example["scenario_type"] == "ton_timer":
+        current_outputs = {"ET": 0, **current_outputs}
     results: List[ScanCycleResult] = []
 
     for cycle_number, cycle_inputs in enumerate(example["cycles"], start=1):
@@ -24,7 +26,7 @@ def run_scan_cycles(example: Dict[str, Any]) -> List[ScanCycleResult]:
         input_image.update(cycle_inputs)
 
         previous_output_state = current_outputs.copy()
-        new_output_state, explanation = scenario(input_image, previous_output_state)
+        new_output_state, explanation = scenario(input_image, previous_output_state, example)
 
         results.append(
             ScanCycleResult(

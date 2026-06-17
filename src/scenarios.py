@@ -1,15 +1,25 @@
-from typing import Callable, Dict, Tuple
+from typing import Any, Callable, Dict, Tuple
 
 
-ScenarioResult = Tuple[Dict[str, bool], str]
-ScenarioFunction = Callable[[Dict[str, bool], Dict[str, bool]], ScenarioResult]
+ScenarioResult = Tuple[Dict[str, Any], str]
+ScenarioFunction = Callable[[Dict[str, Any], Dict[str, Any], Dict[str, Any]], ScenarioResult]
 
 
 def _as_bool(value: object) -> bool:
     return bool(value)
 
 
-def run_single_button(input_image: Dict[str, bool], previous_outputs: Dict[str, bool]) -> ScenarioResult:
+def _format_number(value: float) -> str:
+    if float(value).is_integer():
+        return str(int(value))
+    return str(value)
+
+
+def run_single_button(
+    input_image: Dict[str, Any],
+    previous_outputs: Dict[str, Any],
+    example: Dict[str, Any],
+) -> ScenarioResult:
     button = _as_bool(input_image.get("BUTTON", False))
     motor = button
 
@@ -21,7 +31,11 @@ def run_single_button(input_image: Dict[str, bool], previous_outputs: Dict[str, 
     return {"MOTOR": motor}, explanation
 
 
-def run_start_stop_latch(input_image: Dict[str, bool], previous_outputs: Dict[str, bool]) -> ScenarioResult:
+def run_start_stop_latch(
+    input_image: Dict[str, Any],
+    previous_outputs: Dict[str, Any],
+    example: Dict[str, Any],
+) -> ScenarioResult:
     start = _as_bool(input_image.get("START", False))
     stop = _as_bool(input_image.get("STOP", True))
     previous_motor = _as_bool(previous_outputs.get("MOTOR", False))
@@ -40,7 +54,11 @@ def run_start_stop_latch(input_image: Dict[str, bool], previous_outputs: Dict[st
     return {"MOTOR": motor}, explanation
 
 
-def run_emergency_stop(input_image: Dict[str, bool], previous_outputs: Dict[str, bool]) -> ScenarioResult:
+def run_emergency_stop(
+    input_image: Dict[str, Any],
+    previous_outputs: Dict[str, Any],
+    example: Dict[str, Any],
+) -> ScenarioResult:
     start = _as_bool(input_image.get("START", False))
     stop = _as_bool(input_image.get("STOP", True))
     e_stop = _as_bool(input_image.get("E_STOP", True))
@@ -73,10 +91,50 @@ def run_emergency_stop(input_image: Dict[str, bool], previous_outputs: Dict[str,
     return {"MOTOR": motor}, explanation
 
 
+def run_ton_timer(
+    input_image: Dict[str, Any],
+    previous_outputs: Dict[str, Any],
+    example: Dict[str, Any],
+) -> ScenarioResult:
+    timer = example.get("timer", {})
+    pt = float(timer.get("PT", 3))
+    cycle_time = float(timer.get("cycle_time", 1))
+    timer_in = _as_bool(input_image.get("IN", False))
+    previous_et = float(previous_outputs.get("ET", 0))
+
+    if not timer_in:
+        return (
+            {"ET": 0, "Q": False},
+            "IN is false, so the timer is reset. ET returns to 0 and Q becomes false.",
+        )
+
+    new_et = min(previous_et + cycle_time, pt)
+    q = new_et >= pt
+    previous_text = _format_number(previous_et)
+    new_text = _format_number(new_et)
+    pt_text = _format_number(pt)
+
+    if q and previous_et < pt:
+        explanation = (
+            f"IN is true, so ET increases from {previous_text} to {new_text}. "
+            f"ET reaches PT={pt_text}, so Q becomes true."
+        )
+    elif q:
+        explanation = f"IN remains true and ET is already at PT={pt_text}, so Q stays true."
+    else:
+        explanation = (
+            f"IN is true, so ET increases from {previous_text} to {new_text}. "
+            f"ET has not reached PT={pt_text} yet, so Q stays false."
+        )
+
+    return {"ET": new_et, "Q": q}, explanation
+
+
 SCENARIOS: Dict[str, ScenarioFunction] = {
     "single_button": run_single_button,
     "start_stop_latch": run_start_stop_latch,
     "emergency_stop": run_emergency_stop,
+    "ton_timer": run_ton_timer,
 }
 
 
