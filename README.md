@@ -1,15 +1,26 @@
 # PLC Scan Cycle Visualizer
 
+[![Release](https://img.shields.io/github/v/release/tofelling/plc-scan-cycle-visualizer)](https://github.com/tofelling/plc-scan-cycle-visualizer/releases)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Status](https://img.shields.io/badge/status-v0.2.0-green)
+![Focus](https://img.shields.io/badge/focus-PLC%20scan%20cycle-orange)
+
+[中文说明](docs/README.zh-CN.md) | English README
+
 A beginner-friendly Python learning tool for visualizing how a PLC scan cycle turns input states into output states.
 
-## Who Is This For?
+中文简介：这是一个面向自动化学生和 PLC 初学者的 Python 小工具，用来可视化 PLC 扫描周期如何把输入状态变成输出状态。
+
+## Who Is This For? / 适合谁？
 
 - Automation engineering students learning PLC basics.
 - PLC beginners who know ladder logic terms but do not yet understand execution timing.
 - Students preparing portfolio projects for internships or entry-level automation roles.
 - Teachers or lab assistants who need small, hardware-free teaching examples.
 
-## What Problem Does It Solve?
+中文总结：适合自动化专业学生、PLC 初学者，以及想用无硬件示例理解扫描周期的人。
+
+## What Problem Does It Solve? / 解决什么问题？
 
 Many students can recite the PLC scan cycle, but still feel confused by practical questions:
 
@@ -19,6 +30,8 @@ Many students can recite the PLC scan cycle, but still feel confused by practica
 - Why does a PLC execute logic scan by scan instead of reacting like an ordinary interactive Python script?
 
 This project is not an industrial PLC simulator. It is a small teaching tool focused on making the scan cycle visible.
+
+中文总结：它把输入采样、程序执行、输出刷新、自锁和急停逻辑用日志与时序图展示出来。
 
 ## What Is a PLC Scan Cycle?
 
@@ -44,7 +57,9 @@ v0.1 supports three fixed teaching scenarios: `single_button`, `start_stop_latch
 
 The current version uses fixed scenario logic, not a general ladder logic parser.
 
-## Quick Start
+中文说明：当前版本只支持这三个固定教学场景，不是通用梯形图解析器。
+
+## Quick Start / 快速开始
 
 Install dependencies and run the start-stop latch example:
 
@@ -54,6 +69,18 @@ python main.py examples/02_start_stop_latch.yaml
 ```
 
 You can also run `python main.py` to use the default start-stop latch example.
+
+Generate a timing diagram for one example:
+
+```bash
+python main.py examples/02_start_stop_latch.yaml --plot
+```
+
+Generate timing diagrams for all MVP examples:
+
+```bash
+python main.py --plot-all
+```
 
 ## v0.1 Output Example
 
@@ -95,9 +122,19 @@ Cycle 5
   Output update: MOTOR=False
 ```
 
-Later versions may generate timing diagrams showing input states, internal logic states, and output states across multiple scan cycles.
+v0.1 shows scan cycle logs. v0.2 adds timing diagrams that show how input and output signals change across scan cycles.
 
-## Core Logic
+## Timing Diagram Preview / 时序图预览
+
+The timing diagram helps beginners see how `START`, `STOP`, and `MOTOR` change across scan cycles.
+
+In this example, START is pressed only during Cycle 2, but MOTOR remains on in Cycle 3 because the latch uses the previous MOTOR state. When STOP becomes false in Cycle 4, MOTOR is forced off.
+
+中文说明：在这个例子中，START 只在第 2 个扫描周期被按下，但 MOTOR 在第 3 个周期仍然保持开启，因为自锁逻辑使用了上一轮的 MOTOR 状态。当 STOP 在第 4 个周期变为 False 时，MOTOR 被强制关闭。
+
+![Start Stop Latch Timing Diagram](outputs/02_start_stop_latch_timing.png)
+
+## Core Logic / 核心逻辑
 
 The start-stop latch example uses this teaching rule:
 
@@ -113,10 +150,12 @@ Where:
 
 This is fixed scenario logic for teaching scan cycles. It is not a full ladder logic interpreter.
 
+中文说明：STOP=True 表示停止回路正常；previous MOTOR=True 表示上一轮电机已经开启，因此松开 START 后，MOTOR 仍然可以通过自锁逻辑保持开启。
+
 ## Project Roadmap
 
 - v0.1: Display scan cycle logs for the three MVP examples. Implemented.
-- v0.2: Generate timing diagrams from example data.
+- v0.2: Generate timing diagrams from example data. Implemented.
 - v0.3: Add a basic TON timer teaching example.
 - v0.4: Add practice questions and expected answers.
 - v1.0: Become a small, teachable, demo-ready PLC scan cycle learning tool.
@@ -137,8 +176,10 @@ It is intentionally limited:
 
 That narrow scope makes the project realistic for a student portfolio while still staying close to real automation concepts.
 
-## Current Status
+## Current Status / 当前状态
 
-v0.1 implemented.
+v0.2 implemented.
 
-The repository can load the three YAML examples and print beginner-friendly scan cycle logs in the terminal.
+The repository can load the three YAML examples, print beginner-friendly scan cycle logs in the terminal, and generate static timing diagram images for README usage.
+
+中文总结：当前版本已经可以运行 YAML 示例、输出 scan cycle logs，并生成用于 README 展示的 timing diagrams。
