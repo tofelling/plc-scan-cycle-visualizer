@@ -99,6 +99,16 @@ If IN=True:
 
 这能体现 scan cycle 的原因是：`ET` 不是一次性跳到 `PT`，而是在连续扫描周期中一轮一轮累加。如果 `IN=False`，定时器复位，`ET` 回到 0，`Q=False`。
 
+## 练习题模块
+
+v0.4 新增了配套练习题。建议先读题并预测输出，再运行程序查看 scan cycle log，最后对照答案和解释。
+
+- [Single Button Practice](../exercises/01_single_button_questions.md)
+- [Start/Stop Latch Practice](../exercises/02_start_stop_latch_questions.md)
+- [Emergency Stop Practice](../exercises/03_emergency_stop_questions.md)
+- [TON Timer Practice](../exercises/04_ton_timer_questions.md)
+- [Practice Guide](practice_guide.md)
+
 ## 核心自锁逻辑
 
 start-stop latch 的教学逻辑是：
@@ -128,13 +138,14 @@ MOTOR = STOP and (START or previous MOTOR)
 
 ## 当前状态和下一步计划
 
-当前状态：v0.3 implemented。
+当前状态：v0.4 implemented。
 
 已经支持：
 
 - 读取四个 YAML 示例；
 - 输出 scan cycle logs；
 - 生成 timing diagram PNG 图片；
-- 演示基础 TON timer 行为。
+- 演示基础 TON timer 行为；
+- 提供四组配套练习题和答案解释。
 
-下一步 v0.4 计划加入 practice questions and answers，让学习者先预测输出，再对照日志和时序图检查理解。
+下一步 v1.0 计划整理项目结构、最终文档和示例展示，让项目更适合作为教学和作品集展示工具。

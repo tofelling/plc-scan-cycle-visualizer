@@ -2,7 +2,7 @@
 
 [![Release](https://img.shields.io/github/v/release/tofelling/plc-scan-cycle-visualizer)](https://github.com/tofelling/plc-scan-cycle-visualizer/releases)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Status](https://img.shields.io/badge/status-v0.3.0-green)
+![Status](https://img.shields.io/badge/status-v0.4.0-green)
 ![Focus](https://img.shields.io/badge/focus-PLC%20scan%20cycle-orange)
 
 [中文说明](docs/README.zh-CN.md) | English README
@@ -149,6 +149,18 @@ The TON timer diagram shows that `Q` does not become true immediately when `IN=T
 
 ![TON Timer Timing Diagram](outputs/04_ton_timer_timing.png)
 
+## Practice Questions / 练习题
+
+v0.4 adds beginner-friendly practice questions for all four examples. Learners can predict outputs before checking the answer and explanation.
+
+中文说明：练习题会让你先预测某个扫描周期的输出，再查看答案和解释，适合用来巩固 PLC scan cycle、自锁、急停和 TON 定时器概念。
+
+- [Single Button Practice](exercises/01_single_button_questions.md)
+- [Start/Stop Latch Practice](exercises/02_start_stop_latch_questions.md)
+- [Emergency Stop Practice](exercises/03_emergency_stop_questions.md)
+- [TON Timer Practice](exercises/04_ton_timer_questions.md)
+- [Practice Guide](docs/practice_guide.md)
+
 ## Core Logic / 核心逻辑
 
 The start-stop latch example uses this teaching rule:
@@ -172,7 +184,7 @@ This is fixed scenario logic for teaching scan cycles. It is not a full ladder l
 - v0.1: Display scan cycle logs for the three MVP examples. Implemented.
 - v0.2: Generate timing diagrams from example data. Implemented.
 - v0.3: Add a basic TON timer teaching example. Implemented.
-- v0.4: Add practice questions and expected answers.
+- v0.4: Add practice questions and expected answers. Implemented.
 - v1.0: Become a small, teachable, demo-ready PLC scan cycle learning tool.
 
 See [roadmap.md](roadmap.md) for more detail.
@@ -193,8 +205,8 @@ That narrow scope makes the project realistic for a student portfolio while stil
 
 ## Current Status / 当前状态
 
-v0.3 implemented.
+v0.4 implemented.
 
-The repository can load the four YAML examples, print beginner-friendly scan cycle logs in the terminal, and generate static timing diagram images for README usage.
+The repository can load the four YAML examples, print beginner-friendly scan cycle logs in the terminal, generate static timing diagram images, and provide practice questions with answers.
 
-中文总结：当前版本已经可以运行 YAML 示例、输出 scan cycle logs，并生成用于 README 展示的 timing diagrams；v0.3 新增了 TON timer 教学示例。
+中文总结：当前版本已经包含四个教学案例、scan cycle logs、timing diagrams，以及配套练习题。

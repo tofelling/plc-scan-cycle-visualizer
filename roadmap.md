@@ -59,6 +59,8 @@ Success criteria:
 
 ## v0.4: Practice Questions and Answers
 
+Status: Implemented.
+
 Goal: make the project useful as a learning resource, not only a demo.
 
 Planned scope:
