@@ -1,0 +1,19 @@
+name: Start Stop Motor Latch
+description: Demonstrates how a motor latch holds its output across scan cycles.
+scenario_type: start_stop_latch
+inputs:
+  START: false
+  STOP: true
+outputs:
+  MOTOR: false
+cycles:
+  - START: false
+    STOP: true
+  - START: true
+    STOP: true
+  - START: false
+    STOP: true
+  - START: false
+    STOP: false
+  - START: false
+    STOP: true

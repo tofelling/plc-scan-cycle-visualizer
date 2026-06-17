@@ -1,0 +1,12 @@
+name: Single Button Controls One Coil
+description: Demonstrates how one push button controls one output coil across scan cycles.
+scenario_type: single_button
+inputs:
+  BUTTON: false
+outputs:
+  MOTOR: false
+cycles:
+  - BUTTON: false
+  - BUTTON: true
+  - BUTTON: true
+  - BUTTON: false

@@ -1,0 +1,25 @@
+name: Emergency Stop Interlock
+description: Demonstrates how an emergency stop overrides normal latch logic.
+scenario_type: emergency_stop
+inputs:
+  START: false
+  STOP: true
+  E_STOP: true
+outputs:
+  MOTOR: false
+cycles:
+  - START: true
+    STOP: true
+    E_STOP: true
+  - START: false
+    STOP: true
+    E_STOP: true
+  - START: true
+    STOP: true
+    E_STOP: false
+  - START: false
+    STOP: true
+    E_STOP: true
+  - START: true
+    STOP: true
+    E_STOP: true
