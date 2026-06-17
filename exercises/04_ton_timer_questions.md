@@ -1,6 +1,6 @@
 # TON Timer Practice Questions
 
-Use these questions to practice how `IN`, `ET`, `PT`, and `Q` change across scan cycles.
+Use these questions to practice how `IN`, `ET`, `PT`, and `Q` change when a TON timer runs across scan cycles.
 
 ### Question 1
 

@@ -1,6 +1,6 @@
 # Emergency Stop Practice Questions
 
-Use these questions to practice emergency stop override behavior.
+Use these questions to practice why emergency stop logic must override normal start and latch behavior.
 
 ### Question 1
 

@@ -1,6 +1,6 @@
 # Start/Stop Latch Practice Questions
 
-Use these questions to practice predicting how latch memory affects `MOTOR`.
+Use these questions to practice how `previous MOTOR` keeps a latch active after `START` is released.
 
 ### Question 1
 

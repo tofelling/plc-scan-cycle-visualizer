@@ -1,6 +1,6 @@
 # Single Button Practice Questions
 
-Use these questions before checking the scan cycle log. The goal is to predict how `BUTTON` affects `MOTOR` in each scan.
+Use these questions before checking the scan cycle log. Focus on predicting how the current `BUTTON` input affects `MOTOR`.
 
 ### Question 1
 

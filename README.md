@@ -9,7 +9,7 @@
 
 A beginner-friendly Python learning tool for visualizing how a PLC scan cycle turns input states into output states.
 
-中文简介：这是一个面向自动化学生和 PLC 初学者的 Python 小工具，用来可视化 PLC 扫描周期如何把输入状态变成输出状态。
+这是一个面向自动化学生和 PLC 初学者的 Python 小工具，用来可视化 PLC 扫描周期如何把输入状态变成输出状态。
 
 ## Who Is This For? / 适合谁？
 
@@ -18,7 +18,7 @@ A beginner-friendly Python learning tool for visualizing how a PLC scan cycle tu
 - Students preparing portfolio projects for internships or entry-level automation roles.
 - Teachers or lab assistants who need small, hardware-free teaching examples.
 
-中文总结：适合自动化专业学生、PLC 初学者，以及想用无硬件示例理解扫描周期的人。
+如果你是自动化专业学生，或者刚开始学 PLC，这个项目可以作为一个不需要硬件的小练习环境。
 
 ## What Problem Does It Solve? / 解决什么问题？
 
@@ -31,7 +31,7 @@ Many students can recite the PLC scan cycle, but still feel confused by practica
 
 This project is not an industrial PLC simulator. It is a small teaching tool focused on making the scan cycle visible.
 
-中文总结：它把输入采样、程序执行、输出刷新、自锁和急停逻辑用日志与时序图展示出来。
+项目会把输入采样、程序执行、输出刷新、自锁和急停逻辑放进日志和时序图里，方便你逐轮观察。
 
 ## What Is a PLC Scan Cycle?
 
@@ -58,7 +58,7 @@ v0.3 supports four fixed teaching scenarios: `single_button`, `start_stop_latch`
 
 The current version uses fixed scenario logic, not a general ladder logic parser.
 
-中文说明：当前版本只支持这四个固定教学场景，不是通用梯形图解析器。
+当前版本只支持这四个固定教学场景，不是通用梯形图解析器。
 
 ## Quick Start / 快速开始
 
@@ -137,7 +137,7 @@ The timing diagram helps beginners see how `START`, `STOP`, and `MOTOR` change a
 
 In this example, START is pressed only during Cycle 2, but MOTOR remains on in Cycle 3 because the latch uses the previous MOTOR state. When STOP becomes false in Cycle 4, MOTOR is forced off.
 
-中文说明：在这个例子中，START 只在第 2 个扫描周期被按下，但 MOTOR 在第 3 个周期仍然保持开启，因为自锁逻辑使用了上一轮的 MOTOR 状态。当 STOP 在第 4 个周期变为 False 时，MOTOR 被强制关闭。
+在这个例子中，START 只在第 2 个扫描周期被按下，但 MOTOR 在第 3 个周期仍然保持开启，因为自锁逻辑使用了上一轮的 MOTOR 状态。当 STOP 在第 4 个周期变为 False 时，MOTOR 被强制关闭。
 
 ![Start Stop Latch Timing Diagram](outputs/02_start_stop_latch_timing.png)
 
@@ -145,7 +145,7 @@ In this example, START is pressed only during Cycle 2, but MOTOR remains on in C
 
 The TON timer diagram shows that `Q` does not become true immediately when `IN=True`. The timer must accumulate `ET` across continuous scan cycles until `ET` reaches `PT`.
 
-中文说明：TON 延时定时器在 IN=True 后不会立刻 Q=True，而是需要在连续扫描周期中累计 ET。当 ET 达到 PT 后，Q 才变为 True；如果 IN=False，定时器复位。
+TON 延时定时器在 IN=True 后不会立刻 Q=True，而是需要在连续扫描周期中累计 ET。当 ET 达到 PT 后，Q 才变为 True；如果 IN=False，定时器复位。
 
 ![TON Timer Timing Diagram](outputs/04_ton_timer_timing.png)
 
@@ -153,13 +153,24 @@ The TON timer diagram shows that `Q` does not become true immediately when `IN=T
 
 v0.4 adds beginner-friendly practice questions for all four examples. Learners can predict outputs before checking the answer and explanation.
 
-中文说明：练习题会让你先预测某个扫描周期的输出，再查看答案和解释，适合用来巩固 PLC scan cycle、自锁、急停和 TON 定时器概念。
+练习题的用法很简单：先根据当前输入和上一轮状态预测输出，再对照答案解释。这样比直接看结论更容易理解 scan cycle、自锁、急停和 TON 定时器。
 
 - [Single Button Practice](exercises/01_single_button_questions.md)
 - [Start/Stop Latch Practice](exercises/02_start_stop_latch_questions.md)
 - [Emergency Stop Practice](exercises/03_emergency_stop_questions.md)
 - [TON Timer Practice](exercises/04_ton_timer_questions.md)
 - [Practice Guide](docs/practice_guide.md)
+
+## Development / 开发
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
+## Continuous Integration / CI
+
+This project uses GitHub Actions to run the pytest suite on push and pull request events.
 
 ## Core Logic / 核心逻辑
 
@@ -177,7 +188,7 @@ Where:
 
 This is fixed scenario logic for teaching scan cycles. It is not a full ladder logic interpreter.
 
-中文说明：STOP=True 表示停止回路正常；previous MOTOR=True 表示上一轮电机已经开启，因此松开 START 后，MOTOR 仍然可以通过自锁逻辑保持开启。
+STOP=True 表示停止回路正常；previous MOTOR=True 表示上一轮电机已经开启。因此松开 START 后，MOTOR 仍然可以通过自锁逻辑保持开启。
 
 ## Project Roadmap
 
@@ -209,4 +220,4 @@ v0.4 implemented.
 
 The repository can load the four YAML examples, print beginner-friendly scan cycle logs in the terminal, generate static timing diagram images, and provide practice questions with answers.
 
-中文总结：当前版本已经包含四个教学案例、scan cycle logs、timing diagrams，以及配套练习题。
+当前版本已经包含四个教学案例、scan cycle logs、timing diagrams，以及配套练习题。

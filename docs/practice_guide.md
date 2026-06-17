@@ -2,7 +2,7 @@
 
 This guide explains how to use the practice questions as a learning loop, not as a memorization checklist.
 
-中文说明：这个练习模块的目的不是刷题，而是训练学生理解每一轮 scan cycle 中输入、上一轮状态、程序逻辑和输出之间的关系。
+这个练习模块不是为了刷题，而是帮助你看清每一轮 scan cycle 中输入、上一轮状态、程序逻辑和输出之间的关系。
 
 ## How to Use the Practice Questions
 

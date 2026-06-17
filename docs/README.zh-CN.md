@@ -140,7 +140,7 @@ MOTOR = STOP and (START or previous MOTOR)
 
 当前状态：v0.4 implemented。
 
-已经支持：
+现在已经可以：
 
 - 读取四个 YAML 示例；
 - 输出 scan cycle logs；
